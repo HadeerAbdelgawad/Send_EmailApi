@@ -73,7 +73,7 @@ app.use(express.json());
 
 // Standard CORS middleware as backup
 app.use(cors({
-    origin: 'https://ashraf-khaled-w.github.io/',
+    origin: 'https://ksa-afflite.vercel.app',
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
     credentials: true
