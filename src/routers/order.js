@@ -41,19 +41,19 @@ router.post('/order', validateOrderData, async (req, res) => {
       port: 465,
       secure: true, // use SSL
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: 'hadeer.abdelgawad44@gmail.com',
+        pass: 'apgz nffm bifh lrhf',
       },
       tls: {
         rejectUnauthorized: false // يسمح بالاتصال حتى مع شهادات SSL غير موثقة
       }
     });
 
-    console.log(`Attempting to send email to: ${process.env.EMAIL_USER}`);
+    console.log('Attempting to send email to: hadeer.abdelgawad44@gmail.com');
       // Setup email content
     const mailOptions = {
-      from: `Customer Request ${process.env.EMAIL_USER}`,
-      to: process.env.EMAIL_USER,
+      from: `"Customer Request" <hadeer.abdelgawad44@gmail.com>`,
+      to: 'hadeer.abdelgawad44@gmail.com',
       replyTo: email,
       subject: 'New Customer Request',
       text: `
