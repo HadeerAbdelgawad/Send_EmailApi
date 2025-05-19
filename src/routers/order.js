@@ -41,8 +41,8 @@ router.post('/order', validateOrderData, async (req, res) => {
       port: 465,
       secure: true, // use SSL
       auth: {
-        user: 'hadeer.abdelgawad44@gmail.com',
-        pass: 'apgz nffm bifh lrhf',
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
       tls: {
         rejectUnauthorized: false // يسمح بالاتصال حتى مع شهادات SSL غير موثقة
