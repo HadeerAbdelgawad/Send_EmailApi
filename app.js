@@ -16,7 +16,7 @@ const corsOptions = {
 
 // Middleware setup
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors({corsOptions}));
 
 // Import and use routes
 const orderRouter = require('./src/routers/order');
