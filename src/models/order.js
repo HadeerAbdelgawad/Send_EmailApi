@@ -26,6 +26,7 @@ const orderSchema = new mongoose.Schema({
         minlength: [5, 'Details must be at least 5 characters']
     },
     phoneNumber: {
+        required: [true, 'Phone number are required'],
         type: String,
         trim: true
     },
