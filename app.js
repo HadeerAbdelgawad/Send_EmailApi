@@ -10,17 +10,8 @@ const { connectToDatabase } = require('./src/db/mongoose');
 // Middleware setup
 app.use(express.json());
 
-// فتح CORS لكل الدومينات (Enable CORS for all domains)
-const corsOptions = {
-    origin: '*',                  // Allow all origins
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-    credentials: true
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Enable pre-flight for all routes
+// فتح CORS لكل الدومينات
+app.use(cors());
 
 // Import and use routes
 const orderRouter = require('./src/routers/order');
