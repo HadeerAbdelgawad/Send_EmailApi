@@ -9,7 +9,7 @@ const { connectToDatabase } = require('./src/db/mongoose');
 // CORS configuration for security
 const cors = require('cors');
 const corsOptions = {
-    origin: ['http://localhost:3000','http://localhost:5175/ksa-afflite/', 'https://your-frontend-domain.com', '*'], // Add your frontend domains and allow all origins during development
+    origin: ['http://localhost:3000','http://localhost:5176/ksa-afflite/', 'https://your-frontend-domain.com', '*'], // Add your frontend domains and allow all origins during development
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
