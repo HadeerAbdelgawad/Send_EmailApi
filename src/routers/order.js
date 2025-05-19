@@ -49,11 +49,11 @@ router.post('/order', validateOrderData, async (req, res) => {
       }
     });
 
-    console.log('Attempting to send email to: hadeer.abdelgawad44@gmail.com');
+    console.log(`Attempting to send email to: ${process.env.EMAIL_USER}`);
       // Setup email content
     const mailOptions = {
-      from: `"Customer Request" <hadeer.abdelgawad44@gmail.com>`,
-      to: 'hadeer.abdelgawad44@gmail.com',
+      from: `"Customer Request" ${process.env.EMAIL_USER}`,
+      to: process.env.EMAIL_USER,
       replyTo: email,
       subject: 'New Customer Request',
       text: `
