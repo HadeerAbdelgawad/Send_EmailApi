@@ -9,7 +9,17 @@ const { connectToDatabase } = require('./src/db/mongoose');
 // CORS configuration for security
 const cors = require('cors');
 const corsOptions = {
-    origin: '*', // Add your frontend domains and allow all origins during development
+    origin:  function (origin, callback) {
+        const allowedOrigins = [
+          'http://localhost:5174',
+          'https://your-frontend-domain.vercel.app', // عدّله للدومين الحقيقي بتاعك
+        ];
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
