@@ -9,14 +9,14 @@ const { connectToDatabase } = require('./src/db/mongoose');
 // CORS configuration for security
 const cors = require('cors');
 const corsOptions = {
-    origin: [ '*'], // Add your frontend domains and allow all origins during development
+    origin: '*', // Add your frontend domains and allow all origins during development
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 // Middleware setup
 app.use(express.json());
-app.use(cors({corsOptions}));
+app.use(cors(corsOptions));
 
 // Import and use routes
 const orderRouter = require('./src/routers/order');
