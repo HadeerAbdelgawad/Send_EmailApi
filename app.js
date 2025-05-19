@@ -8,15 +8,17 @@ const { connectToDatabase } = require('./src/db/mongoose');
 
 // CORS configuration for security
 const cors = require('cors');
-const corsOptions = {
-    origin: ['http://localhost:3000','http://localhost:5176/ksa-afflite/', 'https://your-frontend-domain.com', '*'], // Add your frontend domains and allow all origins during development
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-};
+// const corsOptions = {
+//     origin: ['http://localhost:3000','http://localhost:5176/ksa-afflite/', 'https://your-frontend-domain.com', '*'], // Add your frontend domains and allow all origins during development
+//     methods: ['GET', 'POST'],
+//     allowedHeaders: ['Content-Type', 'Authorization']
+// };
+
+app.options('*', cors())
 
 // Middleware setup
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Import and use routes
 const orderRouter = require('./src/routers/order');
