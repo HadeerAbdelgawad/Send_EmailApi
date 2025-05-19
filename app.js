@@ -57,23 +57,23 @@ const { connectToDatabase } = require('./src/db/mongoose');
 app.use(express.json());
 
 // فتح CORS لكل الدومينات (Enable CORS for all domains)
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true');
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+//     res.header('Access-Control-Allow-Credentials', 'true');
     
-    // Handle OPTIONS method
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
+//     // Handle OPTIONS method
+//     if (req.method === 'OPTIONS') {
+//         return res.status(200).end();
+//     }
     
-    next();
-});
+//     next();
+// });
 
 // Standard CORS middleware as backup
 app.use(cors({
-    origin: 'https://ashraf-khaled-w.github.io/ksa-afflite',
+    origin: 'https://ashraf-khaled-w.github.io/',
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
     credentials: true
