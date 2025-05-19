@@ -10,7 +10,6 @@
 // هذا الملف هو نقطة الدخول لـ Vercel Serverless Functions
 const app = require('../app');
 const cors = require('cors');
-require('dotenv').config();
 
 
 // تطبيق CORS بشكل إضافي قبل تصدير التطبيق

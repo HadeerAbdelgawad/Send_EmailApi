@@ -44,6 +44,8 @@
 
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -71,7 +73,7 @@ app.use((req, res, next) => {
 
 // Standard CORS middleware as backup
 app.use(cors({
-    origin: 'https://ashraf-khaled-w.github.io/ksa-afflite/',
+    origin: 'https://ashraf-khaled-w.github.io/ksa-afflite',
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
     credentials: true
