@@ -12,6 +12,7 @@ app.use(express.json());
 
 // فتح CORS لكل الدومينات
 app.use(cors());
+app.options('*', cors())
 
 // Import and use routes
 const orderRouter = require('./src/routers/order');
