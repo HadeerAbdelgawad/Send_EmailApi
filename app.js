@@ -20,13 +20,28 @@ const corsOptions = {
           callback(new Error('Not allowed by CORS'));
         }
       },
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 // Middleware setup
-app.use(express.json());
 app.use(cors(corsOptions));
+
+
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end(); // رد سريع بدون استكمال باقي الميدل وير
+    }
+    next();
+  });
+
+  app.use(express.json());
+
 
 // Import and use routes
 const orderRouter = require('./src/routers/order');
