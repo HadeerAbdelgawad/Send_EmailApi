@@ -14,7 +14,7 @@ const cors = require('cors');
 
 // تطبيق CORS بشكل إضافي قبل تصدير التطبيق
 app.use(cors({
-    origin: '*',
+    origin: 'https://ksa-afflite.vercel.app',
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
     credentials: true
