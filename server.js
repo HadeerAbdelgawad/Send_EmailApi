@@ -1,7 +1,11 @@
 // Server file for local development
+const cors = require("cors");
+
 const app = require('./index');
 const port = process.env.PORT || 3000;
 const { connectToDatabase } = require('./src/db/mongoose');
+
+app.use(cors()); // يسمح لكل الدومينات
 
 // اتصل بقاعدة البيانات ثم ابدأ الخادم
 connectToDatabase()

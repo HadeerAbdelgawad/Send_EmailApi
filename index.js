@@ -63,12 +63,18 @@
 // Server file for local development
 const port = process.env.PORT || 3000;
 
-import express from "express";
-import cors from "cors";
-import "dotenv/config";
-import { connectToDatabase } from "./src/db/mongoose.js";
-import orderRouter from "./src/routers/order.js";
+// import express from "express";
+// import cors from "cors";
+// import "dotenv/config";
+// import { connectToDatabase } from "./src/db/mongoose.js";
+const express = require('express');
+
+const orderRouter = require('./src/routers/order');
 // ** CONFIG
+require('dotenv').config();
+const { connectToDatabase } = require('./src/db/mongoose');
+
+const cors = require("cors"); 
 const app = express();
 
 app.use(express.json());
