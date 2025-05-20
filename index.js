@@ -52,6 +52,8 @@ const port = process.env.PORT || 3000;
 
 // Import database connection
 const { connectToDatabase } = require('./src/db/mongoose');
+connectToDatabase();
+
 
 // فتح CORS لكل الدومينات (Enable CORS for all domains)
 // app.use((req, res, next) => {
