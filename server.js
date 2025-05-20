@@ -1,4 +1,6 @@
 // Server file for local development
+require('dotenv').config();
+
 const app = require('./index');
 const port = process.env.PORT || 3000;
 const { connectToDatabase } = require('./src/db/mongoose');

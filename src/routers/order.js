@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const Order = require('../models/order')
 const mongoose = require('mongoose');
@@ -41,8 +43,8 @@ router.post('/order', validateOrderData, async (req, res) => {
       port: 465,
       secure: true, // use SSL
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user:process.env.EMAIL_USER,
+        pass:process.env.EMAIL_PASS,
       },
       tls: {
         rejectUnauthorized: false // يسمح بالاتصال حتى مع شهادات SSL غير موثقة
