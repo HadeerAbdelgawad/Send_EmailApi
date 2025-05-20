@@ -1,5 +1,5 @@
 // Server file for local development
-const app = require('./app');
+const app = require('./app.js');
 const port = process.env.PORT || 3000;
 const { connectToDatabase } = require('./src/db/mongoose');
 

@@ -1,23 +1,39 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 3000;
+require('dotenv').config();
+
 
 // Import database connection
 const { connectToDatabase } = require('./src/db/mongoose');
 connectToDatabase()
-
-// CORS configuration for security
-const cors = require('cors');
-const corsOptions = {
-    origin: ['http://localhost:3000','http://localhost:5176/ksa-afflite/', 'https://your-frontend-domain.com', '*'], // Add your frontend domains and allow all origins during development
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-};
-
 // Middleware setup
 app.use(express.json());
-app.use(cors(corsOptions));
+
+// فتح CORS لكل الدومينات (Enable CORS for all domains)
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
+    // Handle OPTIONS method
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+    
+    next();
+});
+
+// Standard CORS middleware as backup
+app.use(cors({
+    origin: 'https://ksa-afflite.vercel.app',
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
+    credentials: true
+}));
 
 // Import and use routes
 const orderRouter = require('./src/routers/order');
@@ -28,7 +44,7 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok', message: 'Service is running' });
 });
 
-// Only start server when running directly, not when imported
+// Start server
 if (require.main === module) {
     app.listen(port, () => {
         console.log(`Server running on port ${port}`);
@@ -36,4 +52,3 @@ if (require.main === module) {
 }
 
 module.exports = app;
-
