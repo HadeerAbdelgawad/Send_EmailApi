@@ -1,4 +1,9 @@
 const mongoose = require('mongoose')
+let cached = global.mongoose;
+
+if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null };
+  }
 
 const connectionString = 'mongodb+srv://hadeer:AtHSk0lTXzfQH2Zd@cluster0.dl4nvru.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
@@ -11,30 +16,20 @@ const options = {
 };
 
 // Cache para la conexión de MongoDB
-let cachedConnection = null;
 
 // Función para conectar a MongoDB con reintentos
 const connectToDatabase = async () => {
-    if (cachedConnection) {
-        console.log('Using existing MongoDB connection');
-        return cachedConnection;
-    }
+    if (cached.conn) return cached.conn;
+
+    if (!cached.promise) {
+        cached.promise = mongoose.connect(connectionString, options).then((mongoose) => {
+          console.log('✅ Connected to MongoDB');
+          return mongoose;
+        });
+      }
     
-    console.log('MongoDB connection attempt...');
-    try {
-        const connection = await mongoose.connect(connectionString, options);
-        console.log('MongoDB connected successfully');
-        cachedConnection = connection;
-        return connection;
-    } catch (err) {
-        console.error('MongoDB connection error:', err);
-        // Reintento si estamos en Vercel
-        if (process.env.VERCEL_ENV) {
-            console.log('Will retry MongoDB connection...');
-            throw err; // Propagar el error para manejo externo
-        }
-        throw err;
-    }
+      cached.conn = await cached.promise;
+      return cached.conn;
 };
 
 // Para compatibilidad con el código existente
@@ -53,10 +48,12 @@ const connectWithRetry = () => {
         });
 };
 
-// Exportar la función para uso en otros archivos
-module.exports = { connectToDatabase, connectWithRetry };
+
 
 // Mantener compatibilidad con código antiguo que importa este archivo directamente
 if (require.main === module) {
     connectWithRetry();
 }
+
+// Exportar la función para uso en otros archivos
+module.exports = { connectToDatabase, connectWithRetry };

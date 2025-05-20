@@ -1,12 +1,9 @@
-require('dotenv').config();
-
 const express = require('express');
-const Order = require('../models/order')
+const router = express.Router();
 const mongoose = require('mongoose');
-const { connectToDatabase } = require('../db/mongoose');
-
-const router = express.Router()
+const Order = require('../models/order');
 const nodemailer = require('nodemailer');
+// Don't import or call connectToDatabase here
 
 // Middleware for validating request body
 const validateOrderData = (req, res, next) => {
@@ -16,27 +13,29 @@ const validateOrderData = (req, res, next) => {
     return res.status(400).json({ error: 'Missing required fields: userName, email, and details are required' });
   }
 
+
+  const validator = require('validator');
   // Basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ error: 'Invalid email format' });
+  if (!validator.isEmail(email)) {
+    throw new Error('Invalid email address');
   }
+  
 
   next();
 };
 
-router.post('/order', validateOrderData, async (req, res) => {
+router.post('/', validateOrderData, async (req, res) => {
   const { email, phoneNumber, details, userName } = req.body;
   // Create new order instance
-  const order = new Order(req.body)
-  try {
-    // قم بالاتصال بقاعدة البيانات أولاً
-    await connectToDatabase();
-    
+  const order = new Order(req.body);
+
+  try {    
     // Save order to database
     console.log('Attempting to save order to database:', { userName, email,details, phoneNumber });
     const savedOrder = await order.save();
     console.log('Order saved successfully with ID:', savedOrder._id);// Configure email transport
+    
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       host: 'smtp.gmail.com',
@@ -48,13 +47,16 @@ router.post('/order', validateOrderData, async (req, res) => {
       },
       tls: {
         rejectUnauthorized: false // يسمح بالاتصال حتى مع شهادات SSL غير موثقة
-      }
+      },
+      logger: true,
+      debug: true,
     });
+
 
     console.log(`Attempting to send email to: ${process.env.EMAIL_USER}`);
       // Setup email content
     const mailOptions = {
-      from: `Customer Request ${process.env.EMAIL_USER}`,
+      from: `Customer Request <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
       replyTo: email,
       subject: 'New Customer Request',
@@ -72,6 +74,10 @@ router.post('/order', validateOrderData, async (req, res) => {
             <p><strong>Details:</strong> ${details}</p>
             `
     };// Send email
+
+
+    
+    
     try {
       const info = await transporter.sendMail(mailOptions);
       console.log('Email sent successfully:', info.response);
@@ -82,7 +88,11 @@ router.post('/order', validateOrderData, async (req, res) => {
         message: 'Order saved and notification email sent successfully'
       });
     } catch (emailError) {
-      console.error('Error sending email:', emailError);
+      console.error('Email failed to send:', {
+        message: emailError.message,
+        code: emailError.code,
+        stack: emailError.stack
+      });
       
       // Still return success since order was saved
       res.status(200).json({
@@ -123,9 +133,6 @@ router.post('/order', validateOrderData, async (req, res) => {
 // Add a route to check database connection
 router.get('/db-status', async (req, res) => {
   try {
-    // محاولة الاتصال بقاعدة البيانات
-    await connectToDatabase();
-    
     // التحقق من حالة الاتصال
     const state = mongoose.connection.readyState;
     const states = {
