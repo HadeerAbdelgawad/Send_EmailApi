@@ -8,9 +8,9 @@ const nodemailer = require('nodemailer');
 
 // Middleware for validating request body
 const validateOrderData = (req, res, next) => {
-  const { email, details, userName } = req.body;
+  const { email, details, userName, phoneNumber } = req.body;
 
-  if (!email || !details || !userName) {
+  if (!email || !details || !userName || !phoneNumber) {
     return res.status(400).json({ error: 'Missing required fields: userName, email, and details are required' });
   }
 
@@ -32,7 +32,7 @@ router.post('/order', validateOrderData, async (req, res) => {
     await connectToDatabase();
     
     // Save order to database
-    console.log('Attempting to save order to database:', { userName, email, phoneNumber });
+    console.log('Attempting to save order to database:', { userName, email,details, phoneNumber });
     const savedOrder = await order.save();
     console.log('Order saved successfully with ID:', savedOrder._id);// Configure email transport
     const transporter = nodemailer.createTransport({
