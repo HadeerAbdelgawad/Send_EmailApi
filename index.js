@@ -53,9 +53,6 @@ const port = process.env.PORT || 3000;
 // Import database connection
 const { connectToDatabase } = require('./src/db/mongoose');
 
-// Middleware setup
-app.use(express.json());
-
 // فتح CORS لكل الدومينات (Enable CORS for all domains)
 // app.use((req, res, next) => {
 //     res.header('Access-Control-Allow-Origin', '*');
@@ -72,12 +69,18 @@ app.use(express.json());
 // });
 
 // Standard CORS middleware as backup
-app.use(cors({
+const corsOptions = {
     origin: 'https://ksa-afflite.vercel.app',
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
-    credentials: true
-}));
+    credentials: true,
+    credentials: true,
+    optionsSuccessStatus: 204 
+};
+app.use(cors(corsOptions));
+
+// Middleware setup
+app.use(express.json());
 
 // Import and use routes
 const orderRouter = require('./src/routers/order');
