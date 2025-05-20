@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const connectionString = 'mongodb+srv://hadeer:AtHSk0lTXzfQH2Zd@cluster0.dl4nvru.mongodb.net/send_email_api?retryWrites=true&w=majority&appName=Cluster0';
+const connectionString = 'mongodb+srv://hadeer:AtHSk0lTXzfQH2Zd@cluster0.dl4nvru.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 // Set mongoose options for Vercel serverless environment
 const options = {
